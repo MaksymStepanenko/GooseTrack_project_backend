@@ -1,12 +1,13 @@
 import express from "express";
 
-import contactController from '../../controllers/contacts-controller.js'
+import contactController from "../../controllers/contacts-controller.js";
 
 import * as contactSchemas from "../../models/Contact.js";
 
-import {validateBody} from "../../decorators/index.js";
+import { validateBody } from "../../decorators/index.js";
 
-import {isValidId} from "../../middlewares/index.js";
+import { isValidId } from "../../middlewares/index.js";
+import authenticate from "../../middlewares/authenticate.js";
 
 const contactAddValidate = validateBody(contactSchemas.contactAddSchema);
 const contactUpdateFavoriteValidate = validateBody(
@@ -14,6 +15,8 @@ const contactUpdateFavoriteValidate = validateBody(
 );
 
 const contactsRouter = express.Router();
+
+contactsRouter.use(authenticate);
 
 contactsRouter.get("/", contactController.getAll);
 
@@ -36,7 +39,5 @@ contactsRouter.patch(
 );
 
 contactsRouter.delete("/:id", isValidId, contactController.deleteById);
-
-// export default moviesRouter;
 
 export default contactsRouter;
