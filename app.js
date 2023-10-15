@@ -5,6 +5,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 dotenv.config();
 
+import { tasksRouter } from "./src/routes/tasks/index.js";
 
 
 const app = express();
@@ -14,6 +15,10 @@ app.use(logger(formatsLogger));
 app.use(cors());
 app.use(express.json());
 app.use(express.static("public"));
+
+// app.use("/auth");
+app.use("/tasks", tasksRouter);
+// app.use("/reviews");  
 
 
 app.use((req, res) => {
