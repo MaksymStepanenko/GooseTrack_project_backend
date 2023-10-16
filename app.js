@@ -5,8 +5,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 dotenv.config();
 
-import { tasksRouter } from "./src/routes/tasks/index.js";
-
+import authRouter from "./src/routes/auth/users.js";
 
 const app = express();
 const formatsLogger = app.get("env") === "development" ? "dev" : "short";
@@ -15,10 +14,7 @@ app.use(logger(formatsLogger));
 app.use(cors());
 app.use(express.json());
 app.use(express.static("public"));
-
-// app.use("/auth");
-app.use("/tasks", tasksRouter);
-// app.use("/reviews");  
+app.use('/auth', authRouter);
 
 
 app.use((req, res) => {
@@ -28,7 +24,7 @@ app.use((req, res) => {
 app.use((err, req, res, next) => {
   res.status(500).json({
     message:
-    err.message    
+      err.message
   });
 });
 
