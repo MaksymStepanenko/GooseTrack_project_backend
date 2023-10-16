@@ -12,19 +12,19 @@ const taskShema = new Schema(
     },
     start: {
       type: String,
-      required: [true, "Start time is required"],
-      match: [timeRegexp, "Start time do not match"],
+      // required: [true, "Start time is required"],
+    //   match: [timeRegexp, "Start time do not match"],
     },
     end: {
       type: String,
-      required: [true, "End time is required"],
+      // required: [true, "End time is required"],
     //   match: [timeRegexp, "End time do not match"],
-      validate: {
-        validator: function (v) {
-          return v >= this.start;
-        },
-        message: "Start time must be lower then end time",
-      },
+      // validate: {
+      //   validator: function (v) {
+      //     return v >= this.start;
+      //   },
+      //   message: "Start time must be lower then end time",
+      // },
     },
     priority: {
       type: String,
