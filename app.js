@@ -6,6 +6,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 import authRouter from "./src/routes/auth/users.js";
+import tasksRoute from "./src/routes/tasks/tasks.js"
 
 const app = express();
 const formatsLogger = app.get("env") === "development" ? "dev" : "short";
@@ -16,6 +17,7 @@ app.use(express.json());
 app.use(express.static("public"));
 
 app.use('/auth', authRouter);
+app.use('/tasks', tasksRoute)
 
 
 app.use((req, res) => {
