@@ -1,7 +1,9 @@
 import { ctrlWrapper } from "../../decorators/index.js";
+import Task from "../../models/tasks.js";
 
 const getMonthTasks = async (req, res) => {
-  res.json("getMonthTasks");
+  const result = await Task.find({});
+  res.json(result);
 };
 
 
