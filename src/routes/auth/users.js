@@ -1,25 +1,30 @@
 import express from 'express';
-import authController from "../../controllers/auth/signUp.js";
+import { signup } from "../../controllers/auth/signUp.js";
+import { login } from "../../controllers/auth/logIn.js";
+import { getCurrent } from '../../controllers/auth/getCurrent.js';
+import { logout } from '../../controllers/auth/logOut.js';
 import * as userSchemas from '../../models/User.js';
 import { validateBody } from '../../decorators/index.js';
+import authenticate from '../../middlewares/authenticate.js';
 
-// const { authenticate, upload } = require('../../middleware/index');
 const authRouter = express.Router();
 
 const userSignupValidate = validateBody(userSchemas.userSignupSchema);
-// const userSigninValidate = validateBody(userSchemas.userSigninSchema);
+const userLoginValidate = validateBody(userSchemas.userLoginSchema);
 // const userEmailValidate = validateBody(userSchemas.userEmailSchema);
 
-authRouter.post("/signup", userSignupValidate, authController.signup);
+authRouter.post("/signup", userSignupValidate, signup);
 
+authRouter.post("/login", userLoginValidate, login);
+
+authRouter.get("/current", authenticate, getCurrent);
+
+authRouter.post("/logout", authenticate, logout);
+
+// router.post("/logout", authenticate, authController.logout);
 // router.get("/verify/:verificationToken", authController.verify);
 
 // router.post("/verify", userEmailValidate, authController.resendVerityEmail);
 
-// router.post("/signin", userSigninValidate, authController.signin);
-
-// router.get("/current", authenticate, authController.getCurrent);
-
-// router.post("/logout", authenticate, authController.logout);
 
 export default authRouter;
