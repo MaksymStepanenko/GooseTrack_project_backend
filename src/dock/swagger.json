@@ -1,0 +1,345 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Swagger Petstore - OpenAPI 3.0",
+    "license": {
+      "name": "GitHub",
+      "url": "https://github.com/MaksymStepanenko/GooseTrack_project_backend"
+    },
+    "version": "1.0.1"
+  },
+  "servers": [
+    {
+      "url": "https://project-backend-8dts.onrender.com"
+    }
+  ],
+  "tags": [
+    {
+      "name": "user",
+      "description": "Operations about user"
+    },
+    {
+      "name": "authorization",
+      "description": "Everything about user",
+      "externalDocs": {
+        "description": "Find more",
+        "url": "https://github.com/MaksymStepanenko/GooseTrack_project_backend/tree/master/src/routes/auth"
+      }
+    },
+    {
+      "name": "tasks",
+      "description": "Everything about tasks",
+      "externalDocs": {
+        "description": "Find more",
+        "url": "https://github.com/MaksymStepanenko/GooseTrack_project_backend/tree/master/src/routes/tasks"
+      }
+    }
+  ],
+  "paths": {
+    "/auth/signup": {
+      "post": {
+        "tags": ["user"],
+        "summary": "Create user",
+        "description": "Create new User",
+        "operationId": "createUser",
+        "requestBody": {
+          "description": "Created user object",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "tags": ["user"],
+        "summary": "Logs user into the system",
+        "description": "",
+        "operationId": "loginUser",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "query",
+            "description": "The user name for login",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "password",
+            "in": "query",
+            "description": "The password for login in clear text",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "headers": {
+              "X-Rate-Limit": {
+                "description": "calls per hour allowed by the user",
+                "schema": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              },
+              "X-Expires-After": {
+                "description": "date in UTC when token expires",
+                "schema": {
+                  "type": "string",
+                  "format": "date-time"
+                }
+              }
+            },
+            "content": {
+              "application/xml": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid username/password supplied"
+          }
+        }
+      }
+    },
+    "/auth/logout": {
+      "post": {
+        "tags": ["user"],
+        "summary": "Logs out current logged in user session",
+        "description": "",
+        "operationId": "logoutUser",
+        "parameters": [],
+        "responses": {
+          "default": {
+            "description": "successful operation"
+          }
+        }
+      }
+    },
+    "/auth/current": {
+      "get": {
+        "tags": ["user"],
+        "summary": "Get user",
+        "description": "",
+        "operationId": "getUserByName",
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid username supplied"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Review": {
+        "type": "object",
+        "required": ["review", "rating"],
+        "properties": {
+          "_id": {
+            "type": "string",
+            "description": "Backend-generated unique identifier",
+            "example": "63fa1eb8ed1b46fa6fd8e857"
+          },
+          "review": {
+            "type": "string",
+            "description": "Review text",
+            "example": "Some review"
+          },
+          "rating": {
+            "type": "number",
+            "description": "App rating must be between 1-5",
+            "example": 5
+          },
+          "owner": {
+            "type": "object",
+            "description": "Review owner id",
+            "example": "ObjectId('some backend-generated unique identifier')"
+          }
+        }
+      },
+      "Task": {
+        "type": "object",
+        "required": ["title", "start", "end", "date"],
+        "properties": {
+          "_id": {
+            "type": "string",
+            "description": "Backend-generated unique identifier",
+            "example": "63fa1eb8ed1b46fa6fd8e857"
+          },
+          "title": {
+            "type": "string",
+            "description": "Task title",
+            "example": "Some task"
+          },
+          "start": {
+            "type": "string",
+            "description": "Task start time",
+            "example": "09:00"
+          },
+          "end": {
+            "type": "string",
+            "description": "Task end time",
+            "example": "09:01"
+          },
+          "priority": {
+            "type": "string",
+            "description": "Task priority, one of ['LOW', 'MEDIUM', 'HIGH']",
+            "example": "LOW"
+          },
+          "date": {
+            "type": "string",
+            "description": "Task date",
+            "example": "2023-09-01"
+          },
+          "category": {
+            "type": "string",
+            "description": "Task category, one of ['TODO', 'INPROGRESS', 'DONE']",
+            "example": "TODO"
+          },
+          "owner": {
+            "type": "object",
+            "description": "Owner Info",
+            "example": "ObjectId('some backend-generated unique identifier')"
+          }
+        }
+      },
+      "User": {
+        "type": "object",
+        "required": ["userName", "email", "password"],
+        "properties": {
+          "_id": {
+            "type": "string",
+            "description": "Backend-generated unique identifier",
+            "example": "63fa1eb8ed1b46fa6fd8e857"
+          },
+          "userName": {
+            "type": "string",
+            "description": "User's name",
+            "example": "Lesia Ukrainka"
+          },
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "example": "LesiaUkrainka@gmail.com"
+          },
+          "avatarURL": {
+            "type": "string",
+            "description": "User's avatar URL",
+            "example": "https://res.cloudinary.com/dnhobiphs/image/v169737/avatars/Lesia Ukrainka.png"
+          },
+          "phone": {
+            "type": "string",
+            "description": "User's phone",
+            "example": "+38 (099) 000 0000"
+          },
+          "skype": {
+            "type": "string",
+            "description": "User's skype",
+            "example": "Lesia"
+          },
+          "birthDay": {
+            "type": "string",
+            "description": "User's birthDay",
+            "example": "01/01/1999"
+          },
+          "verify": {
+            "type": "boolean",
+            "description": "Is Verification email",
+            "example": false
+          },
+          "createdAt": {
+            "type": "string",
+            "description": "Data&Time create User",
+            "example": "2023-08-25T18:01:01.709Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "description": "Data&Time update User",
+            "example": "2023-08-25T23:33:49.514Z"
+          }
+        }
+      }
+    }
+  },
+  "securitySchemes": {
+    "petstore_auth": {
+      "type": "oauth2",
+      "flows": {
+        "implicit": {
+          "authorizationUrl": "https://petstore3.swagger.io/oauth/authorize",
+          "scopes": {
+            "write:pets": "modify pets in your account",
+            "read:pets": "read your pets"
+          }
+        }
+      }
+    },
+    "api_key": {
+      "type": "apiKey",
+      "name": "api_key",
+      "in": "header"
+    }
+  }
+}

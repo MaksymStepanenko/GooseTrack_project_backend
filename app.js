@@ -1,12 +1,17 @@
 import express from "express";
 import logger from "morgan";
 import cors from "cors";
+import fs from "fs/promises";
+
+import jsonData from "./src/dock/swagger.json" assert { type: "json" };
 
 import dotenv from "dotenv";
 dotenv.config();
 
 import authRouter from "./src/routes/auth/users.js";
 import tasksRoute from "./src/routes/tasks/tasks.js"
+
+import swaggerUI from "swagger-ui-express"
 
 const app = express();
 const formatsLogger = app.get("env") === "development" ? "dev" : "short";
@@ -18,7 +23,7 @@ app.use(express.static("public"));
 
 app.use('/auth', authRouter);
 app.use('/tasks', tasksRoute)
-
+app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(jsonData));
 
 app.use((req, res) => {
   res.status(404).json({ message: "Not found" });
