@@ -1,0 +1,347 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "GooseTrack_project_backend",
+    "version": "1.0.0",
+    "description": "Description of the REST endpoints for working with the Goose Track API."
+  },
+  "paths": {
+    "/auth/signup": {
+      "post": {
+        "summary": "Registration",
+        "description": "This route registers the user",
+          "requestBody": {
+    "description": "An example of a request object for creating a new user",
+    "required": true,
+    "content": {
+      "application/json": {
+        "schema": {
+          "type": "object",
+          "required": ["name", "email", "password"],
+          "properties": {
+            "userName": {
+              "type": "string",
+              "description": "userName",
+              "example": "Surname Name"
+            },
+            "email": {
+              "type": "string",
+              "description": "E-mail address",
+              "example": "SurnameName@email.com"
+            },
+            "password": {
+              "type": "string",
+              "description": "Password",
+              "example": "Na1234Me"
+            }
+          }
+        }
+      }
+    }
+  },
+        "responses": {
+    "201": {
+      "description": "Registration success",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "allOf": [
+              {
+                "properties": {
+                  "code": {
+                    "type": "number",
+                    "example": 201
+                  },
+                  "user": {
+    "type": "object",
+    "required": ["_id", "userName", "email", "password"],
+    "properties": {
+      "_id": {
+        "type": "string",
+        "description": "Backend-generated unique identifier.",
+        "example": "63fa1eb8ed1b46fa6fd8e857"
+      },
+      "userName": {
+        "type": "string",
+        "description": "User's name",
+        "example": "Surname Name"
+      },
+      "email": {
+        "type": "string",
+        "description": "User's email",
+        "example": "SurnameName@email.com"
+      },
+      "avatarURL": {
+        "type": "string",
+        "description": "User's avatar URL",
+        "example": "https://photo/randomUrl/avatars/64ef0ce0908d14.png"
+      },
+      "phone": {
+        "type": "string",
+        "description": "User's phone",
+        "example": "+38 (000) 000 0000"
+      },
+      "skype": {
+        "type": "string",
+        "description": "User's Skype",
+        "example": "skypeName"
+      },
+      "birthDay": {
+        "type": "string",
+        "description": "User's birthday",
+        "example": "01/01/2000"
+      },
+      "verify": {
+        "type": "boolean",
+        "description": "Is email verification",
+        "example": false
+      },
+      "createdAt": {
+        "type": "string",
+        "description": "Date & Time of user creation",
+        "example": "2023-08-25T18:01:01.749Z"
+      },
+      "updatedAt": {
+        "type": "string",
+        "description": "Date & Time of user update",
+        "example": "2023-08-25T23:33:49.564Z"
+      }
+    
+  
+}
+
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    "400": {
+      "description": "Bad request (invalid request body)"
+    },
+    "409": {
+      "description": "Provided email already exists"
+    },
+    "500": {
+      "description": "Server error"
+    }
+  }
+      }
+    },
+    "/auth/signin": {
+      "post": {
+        "summary": "Login",
+        "description": "Login of a registered user into the system",
+          "requestBody": {
+          "description": "An example of a login",
+          "required": true,
+      "content": {
+      "application/json": {
+        "schema": {
+          "type": "object",
+          "required": ["email", "password"],
+          "properties": {
+            
+            "email": {
+              "type": "string",
+              "description": "E-mail address",
+              "example": "SurnameName@email.com"
+            },
+            "password": {
+              "type": "string",
+              "description": "Password",
+              "example": "Na1234Me"
+            }
+          }
+        }
+      }
+    }
+  },
+        "responses": {
+    "201": {
+      "description": "Login success"
+    },
+    "400": {
+      "description": "Bad request (invalid request body)"
+    },
+    "500": {
+      "description": "Server error"
+    }
+  }
+      }
+    },
+    "/auth/logout": {
+      "post": {
+        "summary": "Change and update",
+        "description": "Change and update user data",
+      
+      "parameters": [
+          {
+            "name": "user",
+            "in": "body",
+            "description": "Дані користувача для реєстрації",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "username": {
+                  "type": "string"
+                },
+                "password": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Користувач створений",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }    
+    },
+     "/auth/init": {
+      "post": {
+        "summary": "Change and update",
+        "description": "Change and update user data",
+      
+      "parameters": [
+          {
+            "name": "user",
+            "in": "body",
+            "description": "Дані користувача для реєстрації",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "username": {
+                  "type": "string"
+                },
+                "password": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Користувач створений",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }    
+    },
+    "/tasks": {
+      "get": {
+        "summary": "Отримати список завдань",
+        "description": "Отримати список всіх завдань.",
+        "responses": {
+          "200": {
+            "description": "Успішний запит",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer"
+                  },
+                  "title": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Створити завдання",
+        "description": "Створити нове завдання.",
+        "parameters": [
+          {
+            "name": "task",
+            "in": "body",
+            "description": "Деталі завдання",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Завдання створено",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/tasks/getAll": {
+      "get": {
+        "summary": "Отримати всі завдання",
+        "description": "Отримати всі існуючі завдання.",
+        "responses": {
+          "200": {
+            "description": "Успішний запит",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer"
+                  },
+                  "title": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
