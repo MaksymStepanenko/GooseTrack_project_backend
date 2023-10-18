@@ -1,347 +1,345 @@
 {
-  "openapi": "3.1.0",
+  "openapi": "3.0.3",
   "info": {
-    "title": "GooseTrack_project_backend",
-    "version": "1.0.0",
-    "description": "Description of the REST endpoints for working with the Goose Track API."
+    "title": "Swagger Petstore - OpenAPI 3.0",
+    "license": {
+      "name": "GitHub",
+      "url": "https://github.com/MaksymStepanenko/GooseTrack_project_backend"
+    },
+    "version": "1.0.1"
   },
+  "servers": [
+    {
+      "url": "https://project-backend-8dts.onrender.com"
+    }
+  ],
+  "tags": [
+    {
+      "name": "user",
+      "description": "Operations about user"
+    },
+    {
+      "name": "authorization",
+      "description": "Everything about user",
+      "externalDocs": {
+        "description": "Find more",
+        "url": "https://github.com/MaksymStepanenko/GooseTrack_project_backend/tree/master/src/routes/auth"
+      }
+    },
+    {
+      "name": "tasks",
+      "description": "Everything about tasks",
+      "externalDocs": {
+        "description": "Find more",
+        "url": "https://github.com/MaksymStepanenko/GooseTrack_project_backend/tree/master/src/routes/tasks"
+      }
+    }
+  ],
   "paths": {
     "/auth/signup": {
       "post": {
-        "summary": "Registration",
-        "description": "This route registers the user",
-          "requestBody": {
-    "description": "An example of a request object for creating a new user",
-    "required": true,
-    "content": {
-      "application/json": {
-        "schema": {
-          "type": "object",
-          "required": ["name", "email", "password"],
-          "properties": {
-            "userName": {
-              "type": "string",
-              "description": "userName",
-              "example": "Surname Name"
+        "tags": ["user"],
+        "summary": "Create user",
+        "description": "Create new User",
+        "operationId": "createUser",
+        "requestBody": {
+          "description": "Created user object",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
             },
-            "email": {
-              "type": "string",
-              "description": "E-mail address",
-              "example": "SurnameName@email.com"
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
             },
-            "password": {
-              "type": "string",
-              "description": "Password",
-              "example": "Na1234Me"
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
             }
           }
-        }
-      }
-    }
-  },
+        },
         "responses": {
-    "201": {
-      "description": "Registration success",
-      "content": {
-        "application/json": {
-          "schema": {
-            "type": "object",
-            "allOf": [
-              {
-                "properties": {
-                  "code": {
-                    "type": "number",
-                    "example": 201
-                  },
-                  "user": {
-    "type": "object",
-    "required": ["_id", "userName", "email", "password"],
-    "properties": {
-      "_id": {
-        "type": "string",
-        "description": "Backend-generated unique identifier.",
-        "example": "63fa1eb8ed1b46fa6fd8e857"
-      },
-      "userName": {
-        "type": "string",
-        "description": "User's name",
-        "example": "Surname Name"
-      },
-      "email": {
-        "type": "string",
-        "description": "User's email",
-        "example": "SurnameName@email.com"
-      },
-      "avatarURL": {
-        "type": "string",
-        "description": "User's avatar URL",
-        "example": "https://photo/randomUrl/avatars/64ef0ce0908d14.png"
-      },
-      "phone": {
-        "type": "string",
-        "description": "User's phone",
-        "example": "+38 (000) 000 0000"
-      },
-      "skype": {
-        "type": "string",
-        "description": "User's Skype",
-        "example": "skypeName"
-      },
-      "birthDay": {
-        "type": "string",
-        "description": "User's birthday",
-        "example": "01/01/2000"
-      },
-      "verify": {
-        "type": "boolean",
-        "description": "Is email verification",
-        "example": false
-      },
-      "createdAt": {
-        "type": "string",
-        "description": "Date & Time of user creation",
-        "example": "2023-08-25T18:01:01.749Z"
-      },
-      "updatedAt": {
-        "type": "string",
-        "description": "Date & Time of user update",
-        "example": "2023-08-25T23:33:49.564Z"
-      }
-    
-  
-}
-
-                  }
+          "default": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
                 }
               }
-            ]
-          }
-        }
-      }
-    },
-    "400": {
-      "description": "Bad request (invalid request body)"
-    },
-    "409": {
-      "description": "Provided email already exists"
-    },
-    "500": {
-      "description": "Server error"
-    }
-  }
-      }
-    },
-    "/auth/signin": {
-      "post": {
-        "summary": "Login",
-        "description": "Login of a registered user into the system",
-          "requestBody": {
-          "description": "An example of a login",
-          "required": true,
-      "content": {
-      "application/json": {
-        "schema": {
-          "type": "object",
-          "required": ["email", "password"],
-          "properties": {
-            
-            "email": {
-              "type": "string",
-              "description": "E-mail address",
-              "example": "SurnameName@email.com"
-            },
-            "password": {
-              "type": "string",
-              "description": "Password",
-              "example": "Na1234Me"
             }
           }
         }
       }
-    }
-  },
+    },
+    "/auth/login": {
+      "post": {
+        "tags": ["user"],
+        "summary": "Logs user into the system",
+        "description": "",
+        "operationId": "loginUser",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "query",
+            "description": "The user name for login",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "password",
+            "in": "query",
+            "description": "The password for login in clear text",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "responses": {
-    "201": {
-      "description": "Login success"
-    },
-    "400": {
-      "description": "Bad request (invalid request body)"
-    },
-    "500": {
-      "description": "Server error"
-    }
-  }
+          "200": {
+            "description": "successful operation",
+            "headers": {
+              "X-Rate-Limit": {
+                "description": "calls per hour allowed by the user",
+                "schema": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              },
+              "X-Expires-After": {
+                "description": "date in UTC when token expires",
+                "schema": {
+                  "type": "string",
+                  "format": "date-time"
+                }
+              }
+            },
+            "content": {
+              "application/xml": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid username/password supplied"
+          }
+        }
       }
     },
     "/auth/logout": {
       "post": {
-        "summary": "Change and update",
-        "description": "Change and update user data",
-      
-      "parameters": [
-          {
-            "name": "user",
-            "in": "body",
-            "description": "Дані користувача для реєстрації",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "properties": {
-                "username": {
-                  "type": "string"
-                },
-                "password": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        ],
+        "tags": ["user"],
+        "summary": "Logs out current logged in user session",
+        "description": "",
+        "operationId": "logoutUser",
+        "parameters": [],
         "responses": {
-          "201": {
-            "description": "Користувач створений",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              }
-            }
+          "default": {
+            "description": "successful operation"
           }
         }
-      }    
+      }
     },
-     "/auth/init": {
-      "post": {
-        "summary": "Change and update",
-        "description": "Change and update user data",
-      
-      "parameters": [
-          {
-            "name": "user",
-            "in": "body",
-            "description": "Дані користувача для реєстрації",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "properties": {
-                "username": {
-                  "type": "string"
-                },
-                "password": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "Користувач створений",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        }
-      }    
-    },
-    "/tasks": {
+    "/auth/current": {
       "get": {
-        "summary": "Отримати список завдань",
-        "description": "Отримати список всіх завдань.",
+        "tags": ["user"],
+        "summary": "Get user",
+        "description": "",
+        "operationId": "getUserByName",
         "responses": {
           "200": {
-            "description": "Успішний запит",
-            "schema": {
-              "type": "array",
-              "items": {
-                "type": "object",
-                "properties": {
-                  "id": {
-                    "type": "integer"
-                  },
-                  "title": {
-                    "type": "string"
-                  },
-                  "description": {
-                    "type": "string"
-                  }
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
                 }
               }
             }
+          },
+          "400": {
+            "description": "Invalid username supplied"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Review": {
+        "type": "object",
+        "required": ["review", "rating"],
+        "properties": {
+          "_id": {
+            "type": "string",
+            "description": "Backend-generated unique identifier",
+            "example": "63fa1eb8ed1b46fa6fd8e857"
+          },
+          "review": {
+            "type": "string",
+            "description": "Review text",
+            "example": "Some review"
+          },
+          "rating": {
+            "type": "number",
+            "description": "App rating must be between 1-5",
+            "example": 5
+          },
+          "owner": {
+            "type": "object",
+            "description": "Review owner id",
+            "example": "ObjectId('some backend-generated unique identifier')"
           }
         }
       },
-      "post": {
-        "summary": "Створити завдання",
-        "description": "Створити нове завдання.",
-        "parameters": [
-          {
-            "name": "task",
-            "in": "body",
-            "description": "Деталі завдання",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "properties": {
-                "title": {
-                  "type": "string"
-                },
-                "description": {
-                  "type": "string"
-                }
-              }
-            }
+      "Task": {
+        "type": "object",
+        "required": ["title", "start", "end", "date"],
+        "properties": {
+          "_id": {
+            "type": "string",
+            "description": "Backend-generated unique identifier",
+            "example": "63fa1eb8ed1b46fa6fd8e857"
+          },
+          "title": {
+            "type": "string",
+            "description": "Task title",
+            "example": "Some task"
+          },
+          "start": {
+            "type": "string",
+            "description": "Task start time",
+            "example": "09:00"
+          },
+          "end": {
+            "type": "string",
+            "description": "Task end time",
+            "example": "09:01"
+          },
+          "priority": {
+            "type": "string",
+            "description": "Task priority, one of ['LOW', 'MEDIUM', 'HIGH']",
+            "example": "LOW"
+          },
+          "date": {
+            "type": "string",
+            "description": "Task date",
+            "example": "2023-09-01"
+          },
+          "category": {
+            "type": "string",
+            "description": "Task category, one of ['TODO', 'INPROGRESS', 'DONE']",
+            "example": "TODO"
+          },
+          "owner": {
+            "type": "object",
+            "description": "Owner Info",
+            "example": "ObjectId('some backend-generated unique identifier')"
           }
-        ],
-        "responses": {
-          "201": {
-            "description": "Завдання створено",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              }
-            }
+        }
+      },
+      "User": {
+        "type": "object",
+        "required": ["userName", "email", "password"],
+        "properties": {
+          "_id": {
+            "type": "string",
+            "description": "Backend-generated unique identifier",
+            "example": "63fa1eb8ed1b46fa6fd8e857"
+          },
+          "userName": {
+            "type": "string",
+            "description": "User's name",
+            "example": "Lesia Ukrainka"
+          },
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "example": "LesiaUkrainka@gmail.com"
+          },
+          "avatarURL": {
+            "type": "string",
+            "description": "User's avatar URL",
+            "example": "https://res.cloudinary.com/dnhobiphs/image/v169737/avatars/Lesia Ukrainka.png"
+          },
+          "phone": {
+            "type": "string",
+            "description": "User's phone",
+            "example": "+38 (099) 000 0000"
+          },
+          "skype": {
+            "type": "string",
+            "description": "User's skype",
+            "example": "Lesia"
+          },
+          "birthDay": {
+            "type": "string",
+            "description": "User's birthDay",
+            "example": "01/01/1999"
+          },
+          "verify": {
+            "type": "boolean",
+            "description": "Is Verification email",
+            "example": false
+          },
+          "createdAt": {
+            "type": "string",
+            "description": "Data&Time create User",
+            "example": "2023-08-25T18:01:01.709Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "description": "Data&Time update User",
+            "example": "2023-08-25T23:33:49.514Z"
+          }
+        }
+      }
+    }
+  },
+  "securitySchemes": {
+    "petstore_auth": {
+      "type": "oauth2",
+      "flows": {
+        "implicit": {
+          "authorizationUrl": "https://petstore3.swagger.io/oauth/authorize",
+          "scopes": {
+            "write:pets": "modify pets in your account",
+            "read:pets": "read your pets"
           }
         }
       }
     },
-    "/tasks/getAll": {
-      "get": {
-        "summary": "Отримати всі завдання",
-        "description": "Отримати всі існуючі завдання.",
-        "responses": {
-          "200": {
-            "description": "Успішний запит",
-            "schema": {
-              "type": "array",
-              "items": {
-                "type": "object",
-                "properties": {
-                  "id": {
-                    "type": "integer"
-                  },
-                  "title": {
-                    "type": "string"
-                  },
-                  "description": {
-                    "type": "string"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
+    "api_key": {
+      "type": "apiKey",
+      "name": "api_key",
+      "in": "header"
     }
   }
 }
