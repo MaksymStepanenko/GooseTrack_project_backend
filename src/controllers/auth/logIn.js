@@ -11,32 +11,40 @@ const { JWT_SECRET } = process.env;
 
 export const login = async (req, res) => {
     const { email, password } = req.body;
-    const user = await User.findOne({ email });
-    if (!user) {
-        throw HttpError(404, "Email or password invalid");
+
+    try {
+        const user = await User.findOne({ email });
+        if (!user) {
+            throw HttpError(404, "Email or password invalid");
+        }
+
+        // if (!user.verify) {
+        //     throw HttpError(401, "Email not verify");
+        // }
+
+        const passwordCompare = await bcrypt.compare(password, user.password);
+
+        if (!passwordCompare) {
+            throw HttpError(401, "Email or password invalid");
+        }
+
+        const { _id: id } = user;
+
+        const payload = {
+            id,
+        }
+        const token = jwt.sign(payload, JWT_SECRET, { expiresIn: "23h" });
+        await User.findByIdAndUpdate(id, { token });
+
+        res.json({
+            token,
+        })
+    } catch (e) {
+        res.json({
+            "status": e.status,
+            "message": e.message
+        })
     }
-
-    // if (!user.verify) {
-    //     throw HttpError(401, "Email not verify");
-    // }
-
-    const passwordCompare = await bcrypt.compare(password, user.password);
-
-    if (!passwordCompare) {
-        throw HttpError(401, "Email or password invalid");
-    }
-
-    const { _id: id } = user;
-
-    const payload = {
-        id,
-    }
-    const token = jwt.sign(payload, JWT_SECRET, { expiresIn: "23h" });
-    await User.findByIdAndUpdate(id, { token });
-
-    res.json({
-        token,
-    })
 }
 
 export default {
