@@ -26,15 +26,13 @@ export const signup = async (req, res) => {
         // };
 
         // await sendEmail(verifyEmail);
-
         res.status(201).json({
             userName: newUser.userName,
             email: newUser.email,
         })
     } catch (e) {
-        res.json({
-            "status": e.status,
-            "message": e.message
+        res.status(e.status).json({
+            "error": e.message
         })
     }
 }

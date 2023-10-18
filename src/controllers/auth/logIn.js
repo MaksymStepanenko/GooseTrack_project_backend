@@ -15,7 +15,7 @@ export const login = async (req, res) => {
     try {
         const user = await User.findOne({ email });
         if (!user) {
-            throw HttpError(404, "Email or password invalid");
+            throw HttpError(401, "Email or password invalid");
         }
 
         // if (!user.verify) {
@@ -40,9 +40,8 @@ export const login = async (req, res) => {
             token,
         })
     } catch (e) {
-        res.json({
-            "status": e.status,
-            "message": e.message
+        res.status(e.status).json({
+            "error": e.message
         })
     }
 }
