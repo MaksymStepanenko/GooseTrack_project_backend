@@ -6,8 +6,11 @@ import {
   patchTask,
   postTask,
 } from "../../controllers/tasks/index.js";
+import authenticate from '../../middlewares/authenticate.js';
 
 const tasksRouter = express.Router();
+
+tasksRouter.use(authenticate)
 
 tasksRouter.get("/", getMonthTasks);
 

@@ -13,12 +13,12 @@ const taskShema = new Schema(
     start: {
       type: String,
       // required: [true, "Start time is required"],
-    //   match: [timeRegexp, "Start time do not match"],
+      //   match: [timeRegexp, "Start time do not match"],
     },
     end: {
       type: String,
       // required: [true, "End time is required"],
-    //   match: [timeRegexp, "End time do not match"],
+      //   match: [timeRegexp, "End time do not match"],
       // validate: {
       //   validator: function (v) {
       //     return v >= this.start;
@@ -31,10 +31,15 @@ const taskShema = new Schema(
       required: [true, "Priority is required"],
       enum: ["LOW", "MEDIUM", "HIGH"],
     },
-    date: {
+    month: {
       type: String,
       required: [true, "Date is required"],
-    //   match: [dateRegexp, "Date do not match"],
+      //   match: [dateRegexp, "Date do not match"],
+    },
+    year: {
+      type: String,
+      required: [true, "Date is required"],
+      //   match: [dateRegexp, "Date do not match"],
     },
     category: {
       type: String,
