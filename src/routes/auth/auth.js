@@ -6,25 +6,28 @@ import { logout } from '../../controllers/auth/logOut.js';
 import * as userSchemas from '../../models/User.js';
 import { validateBody } from '../../decorators/index.js';
 import authenticate from '../../middlewares/authenticate.js';
+import updateSchema from '../../schemas/updateSchemas/updateSchema.js';
 
-const authRouter = express.Router();
+const router = express.Router();
 
 const userSignupValidate = validateBody(userSchemas.userSignupSchema);
 const userLoginValidate = validateBody(userSchemas.userLoginSchema);
+const validateUserSchema = validateBody(updateSchema);
 // const userEmailValidate = validateBody(userSchemas.userEmailSchema);
 
-authRouter.post("/signup", userSignupValidate, signup);
+router.post("/signup", userSignupValidate, signup);
 
-authRouter.post("/login", userLoginValidate, login);
+router.post("/login", userLoginValidate, login);
 
-authRouter.get("/current", authenticate, getCurrent);
+router.get("/current", authenticate, getCurrent);
 
-authRouter.post("/logout", authenticate, logout);
+router.post("/logout", authenticate, logout);
 
-// router.post("/logout", authenticate, authController.logout);
 // router.get("/verify/:verificationToken", authController.verify);
+
+router.patch("/user", authenticate, validateUserSchema)
 
 // router.post("/verify", userEmailValidate, authController.resendVerityEmail);
 
 
-export default authRouter;
+export default router;
