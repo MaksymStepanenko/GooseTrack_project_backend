@@ -1,21 +1,21 @@
 import multer from "multer";
+import cloudinary from "cloudinary";
+import { CloudinaryStorage } from "multer-storage-cloudinary";
 
-cloudinary.config({
+cloudinary.v2.config({
     cloud_name: process.env.CLOUDINARY_NAME,
     api_key: process.env.CLOUDINARY_KEY,
     api_secret: process.env.CLOUDINARY_SECRET,
 });
 
 const storage = new CloudinaryStorage({
-    cloudinary: cloudinary,
-    params: {
-        folder: 'avatars',
-        allowed_formats: ['jpg', 'png'],
-        public_id: (req, file) => () => {
-            const uniquePreffix = `${Date.now()}_${Math.round(Math.random() * 1E9)}`;
-            const filename = `${uniquePreffix}_${file.originalname}`;
-            return filename;
-        },
+    cloudinary: cloudinary.v2,
+    params: async (req, file) => {
+        return {
+            folder: 'avatars',
+            allowed_formats: ['jpg', 'png'],
+            public_id: `${req.user._id}`,
+        }
     },
 });
 

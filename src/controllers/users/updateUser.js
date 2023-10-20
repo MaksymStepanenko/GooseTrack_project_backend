@@ -3,8 +3,7 @@ import { ctrlWrapper } from "../../decorators/index.js";
 
 export const updateUser = async (req, res, next) => {
     const { _id } = req.user;
-    console.log('123');
-    const { email, userName, skype, phone, birthDay } =
+    const { email, userName, skype, phone, birthDay, avatarURL } =
         req.body;
     const updatedFields = {};
 
@@ -13,12 +12,12 @@ export const updateUser = async (req, res, next) => {
     if (skype) updatedFields.skype = skype;
     if (phone) updatedFields.phone = phone;
     if (birthDay) updatedFields.birthDay = birthDay;
-    // if (avatarURL) updatedFields.avatarURL = avatarURL;
+    if (avatarURL) updatedFields.avatarURL = avatarURL;
 
-    // if (req.file) {
-    //     const avatarURL = req.file.path;
-    //     updatedFields.avatarURL = avatarURL;
-    // }
+    if (req.file) {
+        const avatarURL = req.file.path;
+        updatedFields.avatarURL = avatarURL;
+    }
 
     await User.findOneAndUpdate(_id, updatedFields);
 
