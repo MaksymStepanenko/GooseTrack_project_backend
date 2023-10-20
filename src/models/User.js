@@ -1,9 +1,8 @@
 import { Schema, model } from 'mongoose';
 import Joi from 'joi';
 
-// const { handleSaveError, runValidateUpdate } = require('./hooks');// створити обробник помилок 
-
-const emailRegexp = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+import { handleSaveError } from './hooks.js';
+import { emailRegexp } from '../helpers/regexp.js';
 
 const userSchema = new Schema(
     {
@@ -54,9 +53,9 @@ const userSchema = new Schema(
     { versionKey: false, timestamps: true }
 );
 
-// userSchema.post("save", handleSaveError);
+userSchema.post("save", handleSaveError);
 
-// userSchema.post("findOneAndUpdate", handleSaveError);
+userSchema.post("findOneAndUpdate", handleSaveError);
 
 export const userSignupSchema = Joi.object({
     userName: Joi.string().min(3).required(),

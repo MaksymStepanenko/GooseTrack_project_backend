@@ -4,6 +4,12 @@ import { HttpError } from "../../helpers/index.js";
 import { ctrlWrapper } from "../../decorators/index.js";
 import bcrypt from "bcrypt";
 import { nanoid } from "nanoid";
+import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
+
+dotenv.config();
+
+const { JWT_SECRET } = process.env;
 
 export const signup = async (req, res) => {
     const { email, password } = req.body;
@@ -18,17 +24,18 @@ export const signup = async (req, res) => {
         const verificationToken = nanoid();
 
         const newUser = await User.create({ ...req.body, password: hashPassword, verificationToken });
+        const id = newUser._id.toHexString();
 
-        // const verifyEmail = {
-        //     to: email,
-        //     subject: "Verify email",
-        //     html: `<a target="_blank" href="${BASE_URL}/api/auth/verify/${verificationToken}">Click to verify email</a>`
-        // };
+        const payload = {
+            id: id
+        }
+        const token = jwt.sign(payload, JWT_SECRET, { expiresIn: "23h" });
+        await User.findByIdAndUpdate(id, { token });
 
-        // await sendEmail(verifyEmail);
         res.status(201).json({
             userName: newUser.userName,
             email: newUser.email,
+            token,
         })
     } catch (e) {
         res.status(e.status).json({

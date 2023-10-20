@@ -7,7 +7,8 @@ import jsonData from "./src/dock/swagger.json" assert { type: "json" };
 import dotenv from "dotenv";
 dotenv.config();
 
-import authRouter from "./src/routes/auth/users.js";
+import authRouter from "./src/routes/auth/auth.js";
+import userRouter from "./src/routes/users/users.js";
 import tasksRoute from "./src/routes/tasks/tasks.js";
 import reviewsRouter from "./src/routes/reviews/reviews-router.js";
 
@@ -22,6 +23,7 @@ app.use(express.json());
 app.use(express.static("public"));
 
 app.use("/auth", authRouter);
+app.use("/users", userRouter);
 app.use("/tasks", tasksRoute);
 app.use("/reviews", reviewsRouter);
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(jsonData));
