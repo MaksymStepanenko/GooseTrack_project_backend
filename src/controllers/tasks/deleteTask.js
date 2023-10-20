@@ -2,7 +2,6 @@ import { ctrlWrapper } from "../../decorators/index.js";
 import Task from "../../models/tasks.js";
 
 const deleteTask = async (req, res) => {
-  const { id } = req.params;
   const result = await Task.findByIdAndDelete(id);
   if (!result) {
     throw HttpError(404, `Contact with id=${id} not found`);
