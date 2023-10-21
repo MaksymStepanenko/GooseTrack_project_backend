@@ -1,14 +1,23 @@
 import { ctrlWrapper } from "../../decorators/index.js";
 import Task from "../../models/tasks.js";
+import CheckByError from "../../helpers/checkByError.js";
 
-const getMonthTasks = async (req, res) => { 
-  const { month, year } = req.query;
+const monthRegexp = /^20\d\d-(0[1-9]|1[012])$/;
+
+const getMonthTasks = async (req, res) => {
+  const { month } = req.query;
+  // CheckByError(
+  //   month.match(monthRegexp) === null,
+  //   400,
+  //   "query param month do not match"
+  // );
+
   const result = await Task.find(
     {
       owner: req.user._id,
-      month: { $regex: month, $options: "i" },
-      year: { $regex: year, $options: "i" },
-    }
+      date: { $regex: month, $options: "i" },
+    },
+    "-owner"
   );
   res.json({ data: result, status: 200 });
 };
