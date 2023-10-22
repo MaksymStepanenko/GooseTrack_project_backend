@@ -18,6 +18,11 @@ export const updateUser = async (req, res, next) => {
         const avatarURL = req.file.path;
         updatedFields.avatarURL = avatarURL;
     }
+    if (Object.keys(updatedFields).length === 0) {
+        return res.status(400).json({
+            'error': 'missing fields'
+        });
+    }
 
     await User.findOneAndUpdate(_id, updatedFields);
 
@@ -31,9 +36,6 @@ export const updateUser = async (req, res, next) => {
             phone: req.user.phone,
             skype: req.user.skype,
             birthDay: req.user.birthDay,
-            token: req.user.token,
-            createdAt: req.user.createdAt,
-            updatedAt: req.user.updatedAt,
             ...updatedFields,
         },
     });
