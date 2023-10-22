@@ -43,7 +43,7 @@ const getUserReview = async (req, res) => {
     return res.json(reviews); // Return an empty array with status(200) if no reviews are found.
   }
 
-  res.json(reviews);
+  res.json(reviews[0]);
 };
 
 // 3) Add a review by a user.
