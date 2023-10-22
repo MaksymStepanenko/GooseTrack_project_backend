@@ -28,7 +28,7 @@
     }
   ],
   "paths": {
-    "/auth/singup": {
+    "/auth/signup": {
       "post": {
         "tags": [
           "Auth"
