@@ -363,7 +363,7 @@
         }
       }
     },
-    "/user/profile": {
+    "/users/profile": {
       "get": {
         "tags": [
           "Auth"
@@ -524,7 +524,7 @@
       }
     },
 
-    "/user/profile/avatar": {
+    "/users/profile/avatar": {
       "patch": {
         "tags": [
           "Auth"
