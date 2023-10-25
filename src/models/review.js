@@ -14,7 +14,7 @@ const reviewSchema = new Schema(
   { versionKey: false, timestamps: true }
 );
 
-const addReviewSchema = Joi.object({
+export const addReviewSchema = Joi.object({
   text: Joi.string().required().max(250),
   rating: Joi.number().required().min(1).max(5),
 });

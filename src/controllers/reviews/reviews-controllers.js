@@ -62,79 +62,50 @@ const addReview = async (req, res) => {
 };
 
 // 4) Update a user's review by review ID.
-const updateReviewById = async (req, res) => {
-  const { id } = req.params;
+const updateReview = async (req, res) => {
   const { _id: owner } = req.user;
 
-  const review = await Review.findById(id, "-createdAt -updatedAt");
+  const review = await Review.findOneAndUpdate(
+    { owner },
+    { ...req.body },
+    { new: true }
+  );
 
   if (!review) {
     res.status(404).json({ error: "Review not found" });
     return;
   }
 
-  if (review.owner.equals(owner)) {
-    if (review._id.equals(id)) {
-      const updatedReview = await Review.findByIdAndUpdate(id, req.body, {
-        new: true,
-      });
-
-      if (!updatedReview) {
-        res.status(404).json({ error: "Not found" });
-        return;
-      }
-
-      res.json(updatedReview);
-    } else {
-      res
-        .status(400)
-        .json({ error: "Provided ID does not match the ID in the database" });
-    }
-  } else {
-    res
-      .status(403)
-      .json({ error: "You don't have permission to update this review" });
-  }
+  res.json(review);
 };
 
 // 5) Delete a user's review by review ID.
-const deleteReviewById = async (req, res) => {
-  const { id } = req.params;
+const deleteReview = async (req, res) => {
   const { _id: owner } = req.user;
 
-  const review = await Review.findById(id);
+  const review = await Review.findOne({ owner });
 
   if (!review) {
     res.status(404).json({ error: "Review not found" });
     return;
   }
 
-  if (review.owner.equals(owner)) {
-    if (review._id.equals(id)) {
-      const result = await Review.findByIdAndRemove(id);
+  const result = await Review.findByIdAndRemove(review._id);
 
-      if (!result) {
-        res.status(404).json({ error: "Not found" });
-        return;
-      }
-
-      res.json({ message: "Delete success" });
-    } else {
-      res
-        .status(400)
-        .json({ error: "Provided ID does not match the ID in the database" });
-    }
-  } else {
-    res
-      .status(403)
-      .json({ error: "You don't have permission to delete this review" });
+  if (!result) {
+    res.status(404).json({ error: "Not found" });
+    return;
   }
+
+  res.json({
+    message: "Delete success",
+  });
 };
 
 export default {
   getAllReviews: ctrlWrapper(getAllReviews),
   getUserReview: ctrlWrapper(getUserReview),
   addReview: ctrlWrapper(addReview),
-  deleteReviewById: ctrlWrapper(deleteReviewById),
-  updateReviewById: ctrlWrapper(updateReviewById),
+  deleteReview: ctrlWrapper(deleteReview),
+  updateReview: ctrlWrapper(updateReview),
 };
