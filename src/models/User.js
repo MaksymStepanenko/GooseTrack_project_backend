@@ -49,6 +49,9 @@ const userSchema = new Schema(
             type: String,
             required: [true, "Verify token is required"],
         },
+        refreshToken: {
+            type: String,
+        }
     },
     { versionKey: false, timestamps: true }
 );
@@ -61,6 +64,10 @@ export const userSignupSchema = Joi.object({
     userName: Joi.string().min(3).required(),
     email: Joi.string().pattern(emailRegexp).required(),
     password: Joi.string().min(6).required(),
+})
+
+export const userRefreshTokenSchema = Joi.object({
+    refreshToken: Joi.string().required()
 })
 
 export const userLoginSchema = Joi.object({

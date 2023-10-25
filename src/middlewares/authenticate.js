@@ -18,9 +18,10 @@ const authenticate = async (req, res, next) => {
     }
 
     try {
-        const { id } = jwt.verify(token, JWT_SECRET);
-        const user = await User.findById(id);
-        if (!user || !user.token) {
+        const a = jwt.verify(token, JWT_SECRET);
+        const date = new Date().getTime() / 1000;
+        const user = await User.findById(a.id);
+        if (!user || !user.token || (a.exp - date) < 0) {
             throw HttpError(401);
         }
         req.user = user;
