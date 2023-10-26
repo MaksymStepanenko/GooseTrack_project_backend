@@ -11,6 +11,6 @@ const validateUserSchema = validateBody(updateSchema);
 
 router.get("/profile", authenticate, getUser)
 router.patch("/profile", authenticate, validateUserSchema, updateUser)
-router.patch("/profile/avatars", authenticate, upload.single("avatarURL"), updateUser);
+router.patch("/profile/avatar", authenticate, upload.single("avatarURL"), updateUser);
 
 export default router;
