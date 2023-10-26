@@ -1286,9 +1286,7 @@
             }
           }
         }
-      }
-    },
-    "/reviews/own/{id}": {
+      },
       "patch": {
         "tags": [
           "Reviews"
@@ -1382,7 +1380,7 @@
             }
           }
         }
-      },
+      },  
       "delete": {
         "tags": [
           "Reviews"
