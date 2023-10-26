@@ -19,6 +19,10 @@
       "description": "Authorization endpoints"
     },
     {
+      "name": "Users",
+      "description": "User endpoints"
+    },
+    {
       "name": "Tasks",
       "description": "Tasks endpoints"
     },
@@ -366,7 +370,7 @@
     "/users/profile": {
       "get": {
         "tags": [
-          "Auth"
+          "Users"
         ],
         "summary": "Retrieves an info about current user.",
         "parameters": [],
@@ -440,7 +444,7 @@
       },
       "patch": {
         "tags": [
-          "Auth"
+          "Users"
         ],
         "summary": "Update user info and upload avatar",
         "security": [
@@ -454,7 +458,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/currentResponse"
+                "$ref": "#/components/schemas/patchUserRequest"
               }
             }
           }
@@ -465,7 +469,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/RegistrationResponse"
+                  "$ref": "#/components/schemas/currentResponse"
                 }
               }
             }
@@ -527,7 +531,7 @@
     "/users/profile/avatar": {
       "patch": {
         "tags": [
-          "Auth"
+          "Users"
         ],
         "summary": "Update user info and upload avatar",
         "security": [
@@ -700,7 +704,7 @@
             "required": true,
             "example": "2023-10",
             "schema": {
-              "type": "number"
+              "type": "string"
             }
           }
         ],
@@ -1122,7 +1126,7 @@
       }
       
     },
-    "/review/own": {
+    "/reviews/own": {
       "post": {
         "tags": [
           "Reviews"
@@ -1568,6 +1572,10 @@
           "token": {
             "type": "string",
             "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1MzBmMDY1MWZhNTc3ZmM1MTBiMDAyMiIsImlhdCI6MTY5Nzk5MjEzOCwiZXhwIjoxNjk4MDc0OTM4fQ.vMH_6TLiaH0iRc72JJ4hYLN1E8ykunoajMiT2suwZeM"
+          },
+          "refreshToken": {
+            "type": "string",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1MmZiNzJlZTA1NGY1ZjkzZDVmMDg0MCIsImlhdCI6MTY5ODMwMjkyNSwiZXhwIjoxNjk4OTA3NzI1fQ.E9hh410YlCNwjVRrndyYLMsXxcyO20NZY8BM-ypWQg0"
           }
         }
       },
@@ -1613,7 +1621,7 @@
         "properties": {
           "refreshToken": {
             "type": "string",
-            "example": "eyJcsa15c1sa515csa54....."
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1MmZiNzJlZTA1NGY1ZjkzZDVmMDg0MCIsImlhdCI6MTY5ODMwMjkyNSwiZXhwIjoxNjk4OTA3NzI1fQ.E9hh410YlCNwjVRrndyYLMsXxcyO20NZY8BM-ypWQg0"
           }
         }
       },
@@ -1630,11 +1638,11 @@
           },
           "accessToken": {
             "type": "string",
-            "example": "eyJhbGciOiJIUzI1NiIs....."
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1MmZiNzJlZTA1NGY1ZjkzZDVmMDg0MCIsImlhdCI6MTY5ODMwMzM5MiwiZXhwIjoxNjk4Mzg2MTkyfQ.0q-fG4b4fNcCtdduEhNTKVF8DMIQ5ZRotXZkdZiiMhQ"
           },
           "refreshToken": {
             "type": "string",
-            "example": "eyJcsa15c1sa515csa54....."
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1MmZiNzJlZTA1NGY1ZjkzZDVmMDg0MCIsImlhdCI6MTY5ODMwMzM5MiwiZXhwIjoxNjk4OTA4MTkyfQ.neymyVX_ZAE5xbPA_vxw3Qvnrh5oLCXWHpBaWR1y32M"
           }
         }
       },
@@ -1684,6 +1692,9 @@
           "status": {
             "type": "integer",
             "example": 200
+          },"token": {
+            "type": "string",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1MmZiNzJlZTA1NGY1ZjkzZDVmMDg0MCIsImlhdCI6MTY5ODMwMjkyNSwiZXhwIjoxNjk4Mzg1NzI1fQ.50Qlr_y9g6aZ2tfRWSRXdGx-E6O-ABWzQAOaG3J08SY"
           },
           "user": {
             "type": "object",
@@ -1732,6 +1743,19 @@
           }
         }
       },
+      "patchUserRequest": {
+        "type": "object",
+            "properties": {
+              "userName": {
+                "type": "string",
+                "example": "Goose"
+              },
+              "avatarURL": {
+                "type": "string",
+                "example": "https://stig89.github.io/GooseTrack-frontend/static/media/GooseLogo@2x.3c0470b19aa18aaef0d8.png"
+              }
+            }
+        },
       "createTaskRequest": {
         "type": "object",
         "required": [
